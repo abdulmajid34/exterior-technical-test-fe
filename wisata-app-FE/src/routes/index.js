@@ -15,6 +15,16 @@ const router = createRouter({
       path: '/location',
       name: 'location-page',
       component: () => import('@/views/LocationPage.vue')
+    },
+    {
+      path: '/property-detail/:id/:slug',
+      name: 'property-detail',
+      component: () => import('@/views/DetailPropertyPage.vue')
+    },
+    {
+      path: '/location-detail/:id/:slug',
+      name: 'location-detail',
+      component: () => import('@/views/DetailLocationPage.vue')
     }
   ]
 })

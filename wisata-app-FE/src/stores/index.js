@@ -6,22 +6,47 @@ import axios from 'axios'
 export const useIndexStore = defineStore('index', () => {
     // state
     const keyword = ref('')
-    const listProperty = ref([]);
+    const queryParams = ref('')
+    const listData = ref([]);  
+    const detailData = ref(null)  
+    const paramsId = ref(null)
     const isLoading = ref(false)
 
     // function 
-    const searchListProperty = (params) => {
+    const getList = (params) => {
         isLoading.value = true
         return new Promise((resolve, reject) => {
-            axios.get(`https://exterior-technical-test-api.vercel.app/property/fts?query=${params}`)
+            axios.get(`https://exterior-technical-test-api.vercel.app/${queryParams.value}/fts?query=${params}`)
             .then((res) => {
                 console.log(res);
                 isLoading.value = false
-                listProperty.value = res.data
+                listData.value = res.data
+                resolve(res)
             })
             .catch((err) => {
                 isLoading.value = false
                 console.log(err);
+                listData.value = []
+                reject(err)
+            })
+        })
+    }
+
+    const getDetail = (params) => {
+        isLoading.value = true
+        return new Promise((resolve, reject) => {
+            axios.get(`https://exterior-technical-test-api.vercel.app/${queryParams.value}?id=${params}`)
+            .then((res) => {
+                console.log(res.data);
+                isLoading.value = false
+                detailData.value = res.data
+                resolve(res)
+            })
+            .catch((err) => {
+                isLoading.value = false
+                console.log(err);
+                detailData.value = null
+                reject(err)
             })
         })
     }
@@ -33,15 +58,19 @@ export const useIndexStore = defineStore('index', () => {
             let length = value.length;
             if (length >= 3 || length == 0) {
                 keyword.value = value;
-                searchListProperty(keyword.value);
+                getList(keyword.value);
             }
         }, 500)
     );
 
     return {
         keyword,
-        listProperty,
+        queryParams,
+        detailData,
+        listData,        
         isLoading,
-        searchListProperty
+        paramsId,
+        getList,
+        getDetail
     }
 })
