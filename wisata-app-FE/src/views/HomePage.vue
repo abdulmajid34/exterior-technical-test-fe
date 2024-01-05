@@ -1,50 +1,25 @@
 <script setup>  
-import { ref } from "vue";
+import { storeToRefs } from "pinia";
+import { useIndexStore } from '@/stores/index'
+import Navbar from '@/components/Navbar.vue'
 
-const items = ref([
-    {
-        label: 'Home',
-        icon: 'pi pi-home'
-    },
-    {
-        label: 'Location',
-        icon: 'pi pi-map'
-    },
-    {
-        label: 'Tentang Kami',
-        icon: 'pi pi-user'
-    },    
-    {
-        label: 'Contact',
-        icon: 'pi pi-envelope',        
-    }
-]);
+const indexStore = useIndexStore()
+const { keyword, listProperty, isLoading } = storeToRefs(indexStore)
+const { searchListProperty } = indexStore
+ 
+const searchProperty = (event) => {
+  keyword.value = event.target.value
+}
+
+const submitSearch = () => {
+  searchListProperty(keyword.value)
+}
 </script>
 
 <template>
-  <div class="background-image">
-    <!-- section Navbar -->
-     <section>
-      <div class="">
-          <Menubar :model="items">
-              <template #start>
-                  <h2 class="px-4">Wisata App</h2>
-              </template>
-              <template #item="{ item, props, hasSubmenu, root }">
-                  <a v-ripple class="flex align-items-center" v-bind="props.action">
-                      <span :class="item.icon" />
-                      <span class="ml-2">{{ item.label }}</span>                      
-                  </a>
-              </template>
-              <template #end>
-                  <div class="flex align-items-center gap-2">                    
-                      <Avatar image="https://primefaces.org/cdn/primevue/images/avatar/amyelsner.png" shape="circle" />
-                  </div>
-              </template>
-          </Menubar>
-      </div>
-    </section>
-        
+  <div class="background-image">   
+    <!-- Navbar -->              
+    <Navbar />
   
     <!-- Main Content Section -->
     <section> 
@@ -59,8 +34,8 @@ const items = ref([
         <div class="search-container">
           <span class="p-input-icon-left">
             <i class="pi pi-search" />
-            <InputText v-model="value1" class="content-input" placeholder="Search Property" />
-            <Button label="Search" />
+            <InputText @input="searchProperty($event)" class="content-input" placeholder="Search Property" />
+            <Button @click="submitSearch" label="Search" />
         </span>
           
         </div>
@@ -71,23 +46,65 @@ const items = ref([
   </div>
   <section class="content-style">    
     <div class="" >
-      <Card class="shadow-3" style="border-radius: 3rem; margin-top: -10rem; border-bottom-left-radius: 0; border-bottom-right-radius: 0;">
-        <template #title> Simple Card </template>
-        <template #content>
-            <p class="m-0">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit tempora exercitationem praesentium consectetur, temporibus nesciunt voluptatibus architecto eum. Quae voluptas totam quos ea nisi asperiores corporis nostrum, doloribus molestias veritatis. Quos esse doloremque quae voluptate vero ipsa cum expedita ducimus fugiat pariatur nihil sit dignissimos vitae accusantium impedit et ratione voluptas, voluptatum provident architecto repellat eum magnam. Modi voluptates magni culpa! Nostrum assumenda amet quae nemo nobis deserunt recusandae. Facilis cupiditate ullam suscipit assumenda fugit labore ipsam possimus, incidunt quidem necessitatibus illum nisi sit, eos veritatis non, sequi eveniet expedita alias molestiae architecto beatae sint? Expedita, rerum natus. Alias, tempora facere repudiandae perferendis voluptatem itaque veniam nulla possimus unde sint inventore quasi officia necessitatibus! Ducimus eveniet et obcaecati facere eius laborum veritatis unde veniam, aspernatur molestiae nisi sunt odit recusandae at debitis sint distinctio totam minus. Eius porro adipisci omnis voluptatem at praesentium nam corporis consequatur quia dolorem est corrupti minima atque harum hic odio aspernatur, fuga laudantium ex excepturi. Dolorum, natus! Soluta eligendi dolores cum corrupti maxime voluptatibus praesentium tempore esse dolorem amet quasi, rem vel ratione nemo maiores. Laboriosam possimus laudantium soluta iste quidem qui modi. Sit sapiente suscipit adipisci cupiditate sint? Nisi commodi expedita quia nulla, nam nemo possimus cum, corrupti, est debitis officiis autem iusto adipisci? Fuga corrupti vel, aliquid error nesciunt sint libero ipsum dicta eaque deserunt, ipsa eius, sed molestiae quidem esse? Incidunt est eius ab molestiae, facilis iste rem eum, perferendis excepturi quis officiis dolorum facere ipsa animi quia, culpa recusandae ipsum nam totam omnis! Debitis qui dignissimos non maxime corrupti hic, culpa mollitia deserunt magni ipsum. Eveniet qui, a quibusdam assumenda dolorem, ab facere error vero autem impedit quas optio! Deserunt, aliquid dolores qui laborum nisi tempore expedita inventore minus dolore nostrum rerum voluptatibus, reiciendis sit fuga modi. Cupiditate porro consequuntur adipisci tempore est perferendis repellat, temporibus esse, explicabo, natus ea. Accusantium aperiam molestiae totam eum accusamus aliquam molestias ipsam doloremque dolore. Illum, eum! Est exercitationem expedita autem placeat labore corporis voluptatibus cumque nam similique repellendus eos ex debitis, fugit dolores eum, nemo ducimus alias iste sequi ab! Dolores blanditiis, quas ut officiis, tempora inventore quam impedit, libero error laborum quasi odio excepturi temporibus vero beatae alias veritatis nobis eligendi consequuntur? Assumenda blanditiis deserunt iusto est dolorem enim consequatur dolores modi facilis. Eos ex ducimus tempora minus est! Vitae eius et, suscipit repudiandae dolorem, consectetur expedita ipsa, laboriosam consequuntur qui earum sunt. Ea assumenda tempore saepe at omnis temporibus minima vel voluptatem, impedit a fuga praesentium minus harum laudantium, suscipit, illo delectus fugit voluptas? Deserunt exercitationem fugiat iure minima distinctio illo! Necessitatibus impedit voluptas sunt vitae commodi voluptatibus iusto odit deleniti id blanditiis corporis dolores tempora enim, nam nisi deserunt quasi in nemo repudiandae fugiat quas adipisci earum quos! Temporibus perferendis natus illo iste harum quos, explicabo aperiam placeat sequi, odit quae? Autem beatae, vero sit ut fugit, minus adipisci aliquid, ducimus repudiandae ex accusamus saepe ab eaque cumque eligendi. Sed ad qui quod. Fuga autem obcaecati at alias perferendis corrupti ratione!
-            </p>
+      <Card class="" style="border-radius: 3rem; margin-top: -10rem; border-bottom-left-radius: 0; border-bottom-right-radius: 0; height: auto;">
+        <template #title>
+          <span class="m-4">List Property</span>
         </template>
+        <template #content>
+          <div v-if="isLoading">
+            <div class="border-round border-1 surface-border p-4 surface-card">
+                <div class="flex mb-3">
+                    <Skeleton shape="circle" size="4rem" class="mr-2"></Skeleton>
+                    <div>
+                        <Skeleton width="10rem" class="mb-2"></Skeleton>
+                        <Skeleton width="5rem" class="mb-2"></Skeleton>
+                        <Skeleton height=".5rem"></Skeleton>
+                    </div>
+                </div>
+                <Skeleton width="100%" height="150px"></Skeleton>
+                <div class="flex justify-content-between mt-3">
+                    <Skeleton width="4rem" height="2rem"></Skeleton>
+                    <Skeleton width="4rem" height="2rem"></Skeleton>
+                </div>
+            </div>
+          </div>
+          <div v-else>
+            <div v-if="listProperty.length !== 0">              
+              <div class="grid">
+                <div v-for="(list, idx) in listProperty" :key="idx" class="col-12 md:col-4">
+                  <Card style="width: 25em; height: 10rem;" class="shadow-3">
+                      <template #title> {{ list.name }} </template>
+                      <template #subtitle> {{ list.name_suffix }} </template>                      
+                      <template #content>
+                          <span>{{ list.location_type }}</span>
+                      </template>
+                  </Card>
+                </div>                
+              </div>                                           
+            </div>
+            <div v-else class="card flex justify-content-center">
+                <Image src="https://static-00.iconduck.com/assets.00/404-page-not-found-illustration-2048x998-yjzeuy4v.png" alt="Image" width="250" />
+            </div>
+          </div>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#fff" fill-opacity="1" d="M0,96L48,117.3C96,139,192,181,288,176C384,171,480,117,576,85.3C672,53,768,43,864,80C960,117,1056,203,1152,197.3C1248,192,1344,96,1392,48L1440,0L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>
+        </template>                    
       </Card>
+    </div>
+  </section>
+  
+  <section class="">
+    <div class="" style="margin-top: 20rem;">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#0099ff" fill-opacity="1" d="M0,160L48,138.7C96,117,192,75,288,85.3C384,96,480,160,576,165.3C672,171,768,117,864,101.3C960,85,1056,107,1152,96C1248,85,1344,43,1392,21.3L1440,0L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>
+      
+      <div class=" flex justify-content-center " style="background-color: #0099ff; margin-top: -10px;">
+        <h2 class="text-white">created by abdulmajid</h2>
+      </div>
     </div>
   </section>
 </template>
 
 <style scoped>
 /* Add your styles here */
-.content-style {
-  
-}
 
   .background-image {
     /* Set styles for the background image */
