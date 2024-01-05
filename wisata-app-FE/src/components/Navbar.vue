@@ -27,7 +27,7 @@ const items = ref([
       <div class="">
           <Menubar :model="items">
               <template #start>
-                  <h2 class="px-4">Wisata App</h2>
+                  <h2 class="px-4"><a href="/" style="text-decoration: none; color: black;">Wisata App</a></h2>
               </template>
               <template #item="{ item, props }">
                   <a v-ripple class="flex align-items-center" v-bind="props.action">

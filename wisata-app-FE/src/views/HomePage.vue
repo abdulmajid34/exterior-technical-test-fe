@@ -1,19 +1,35 @@
 <script setup>  
+import { onMounted } from 'vue'
 import { storeToRefs } from "pinia";
 import { useIndexStore } from '@/stores/index'
 import Navbar from '@/components/Navbar.vue'
+import { useRouter } from 'vue-router'
 
+const router = useRouter()
 const indexStore = useIndexStore()
-const { keyword, listProperty, isLoading } = storeToRefs(indexStore)
-const { searchListProperty } = indexStore
+const { keyword, listData, isLoading, queryParams, paramsId } = storeToRefs(indexStore)
+const { getList } = indexStore
+
+onMounted(() => {
+  queryParams.value = 'property'
+})
  
 const searchProperty = (event) => {
   keyword.value = event.target.value
 }
 
 const submitSearch = () => {
-  searchListProperty(keyword.value)
+  getList(keyword.value)
 }
+
+const toDetail = (val) => {
+  paramsId.value = val.id
+  router.push({ name: 'property-detail', params: {
+    id: val.id,
+    slug: val.slug
+  }})
+}
+
 </script>
 
 <template>
@@ -69,10 +85,10 @@ const submitSearch = () => {
             </div>
           </div>
           <div v-else>
-            <div v-if="listProperty.length !== 0">              
+            <div v-if="listData.length !== 0">              
               <div class="grid">
-                <div v-for="(list, idx) in listProperty" :key="idx" class="col-12 md:col-4">
-                  <Card style="width: 25em; height: 10rem;" class="shadow-3">
+                <div v-for="(list, idx) in listData" :key="idx" class="col-12 md:col-4">
+                  <Card @click="toDetail(list)" style="width: 25em; height: 10rem;" class="shadow-3">
                       <template #title> {{ list.name }} </template>
                       <template #subtitle> {{ list.name_suffix }} </template>                      
                       <template #content>

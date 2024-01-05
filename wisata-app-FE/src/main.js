@@ -16,6 +16,8 @@ import Toolbar from 'primevue/toolbar';
 import Card from 'primevue/card';
 import Image from 'primevue/image';
 import Skeleton from 'primevue/skeleton';
+import Calendar from 'primevue/calendar';
+import DataView from 'primevue/dataview';
 
 import 'primevue/resources/primevue.min.css';
 import 'primeflex/primeflex.scss';
@@ -45,6 +47,8 @@ import 'primevue/resources/themes/lara-light-blue/theme.css'
   app.component('Card', Card);  
   app.component('Image', Image);  
   app.component('Skeleton', Skeleton);  
+  app.component('Calendar', Calendar);  
+  app.component('DataView', DataView);  
   
 })();
 
