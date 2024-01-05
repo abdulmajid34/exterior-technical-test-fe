@@ -19,7 +19,24 @@ onMounted(() => {
 
 <template>
     <Navbar />
-    <div v-for="(item, key) in detailData" :key="key" class="mt-4 mx-3">        
+    <div v-if="isLoading">
+        <div class="border-round border-1 surface-border p-4 surface-card">
+            <div class="flex mb-3">
+                <Skeleton shape="circle" size="4rem" class="mr-2"></Skeleton>
+                <div>
+                    <Skeleton width="10rem" class="mb-2"></Skeleton>
+                    <Skeleton width="5rem" class="mb-2"></Skeleton>
+                    <Skeleton height=".5rem"></Skeleton>
+                </div>
+            </div>
+            <Skeleton width="100%" height="150px"></Skeleton>
+            <div class="flex justify-content-between mt-3">
+                <Skeleton width="4rem" height="2rem"></Skeleton>
+                <Skeleton width="4rem" height="2rem"></Skeleton>
+            </div>
+        </div>
+        </div>
+    <div v-else v-for="(item, key) in detailData" :key="key" class="mt-4 mx-3">        
         <Card class="shadow-3 flex">
             <template #title> {{ item.name }} </template>
             <template #subtitle> {{ item.name_suffix }}, {{ item.country_code }} </template>            
